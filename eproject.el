@@ -313,7 +313,7 @@ become project attributes."
 ;; TODO: sugar around lambda/lambda, which is ugly
 (define-project-type generic () nil
   :relevant-files (".*")
-  :irrelevant-files ("^[.]" "^[#]")
+  :irrelevant-files ("^[#]")
   :file-name-map (lambda (root) (lambda (root file) file))
   :local-variables (lambda (root) (lambda (root file) nil))
   :config-file ".eproject")
@@ -321,7 +321,7 @@ become project attributes."
 (define-project-type generic-eproject (generic) (look-for ".eproject"))
 
 (define-project-type generic-git (generic) (look-for ".git/")
-  :irrelevant-files ("^[.]" "^[#]" ".git/"))
+  :irrelevant-files ("^[#]" ".git/"))
 
 (define-project-type generic-hg (generic) (look-for ".hg")
   :irrelevant-files ("^[.]" "^[#]" ".hg/"))
@@ -599,7 +599,7 @@ else through unchanged."
           (set (make-local-variable name) val))))
 
 (defun eproject--search-directory-tree (directory file-regexp ignore-regexp)
-  (loop for file in (directory-files (file-name-as-directory directory) t "^[^.]" t)
+  (loop for file in (directory-files (file-name-as-directory directory) t "[^.]" t)
         unless (string-match ignore-regexp file)
           if (not (file-directory-p file))
             when (and (not (string-match ignore-regexp
