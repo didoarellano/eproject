@@ -313,24 +313,16 @@ become project attributes."
 ;; TODO: sugar around lambda/lambda, which is ugly
 (define-project-type generic () nil
   :relevant-files (".*")
-  :irrelevant-files ("^[#]" ".DS_STORE")
+  :irrelevant-files ("^[#]" ".git$" ".git/" ".hg/" ".bzr/" "_darcs" ".DS_STORE")
   :file-name-map (lambda (root) (lambda (root file) file))
   :local-variables (lambda (root) (lambda (root file) nil))
   :config-file ".eproject")
 
 (define-project-type generic-eproject (generic) (look-for ".eproject"))
-
-(define-project-type generic-git (generic) (look-for ".git/")
-  :irrelevant-files ("^[#]" ".git$" ".git/" ".DS_STORE"))
-
-(define-project-type generic-hg (generic) (look-for ".hg")
-  :irrelevant-files ("^[.]" "^[#]" ".hg/"))
-
-(define-project-type generic-bzr (generic) (look-for ".bzr")
-  :irrelevant-files ("^[.]" "^[#]" ".bzr/"))
-
-(define-project-type generic-darcs (generic) (look-for "_darcs")
-  :irrelevant-files ("^[.]" "^[#]" "_darcs/"))
+(define-project-type generic-git (generic) (look-for ".git/"))
+(define-project-type generic-hg (generic) (look-for ".hg"))
+(define-project-type generic-bzr (generic) (look-for ".bzr"))
+(define-project-type generic-darcs (generic) (look-for "_darcs"))
 
 (defun eproject--type-info (type)
   (or
